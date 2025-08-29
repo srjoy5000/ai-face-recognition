@@ -1,0 +1,23 @@
+.form {
+    width: 700px;
+
+    /* background-color: #ffffff;
+    opacity: 1;
+    background-image: radial-gradient(circle at center center, #000000, #ffffff), repeating-radial-gradient(circle at center center, #000000, #000000, 20px, transparent 40px, transparent 20px);
+    background-blend-mode: multiply; */
+
+    /* background-color: #000000;
+    opacity: 1;
+    background-image: radial-gradient(#04C8DE 0.4px, #000000 0.4px);
+    background-size: 8px 8px; */
+
+    background-color: #000000;
+    opacity: 1;
+    background-image: radial-gradient(#04C8DE 0.4px, transparent 0.4px), radial-gradient(#04C8DE 0.4px, #000000 0.4px);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+
+    /* background-color: #000000;
+    opacity: 1;
+    background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #000000 8px), repeating-linear-gradient(#00d7ff55, #04C8DE); */
+}
