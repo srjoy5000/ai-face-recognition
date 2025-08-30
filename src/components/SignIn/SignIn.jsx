@@ -1,5 +1,7 @@
 import { Component } from 'react'
 
+const baseURL = 'https://ai-face-recognition-api.onrender.com/'
+
 class SignIn extends Component {
     constructor(props) {
         super(props)
