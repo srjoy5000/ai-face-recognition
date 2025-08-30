@@ -24,7 +24,7 @@ class Register extends Component {
 
     onSubmitSignUp = () => {
         const { loadUser, onRouteChange } = this.props
-        fetch('http://localhost:3000/register', {
+        fetch(baseURL + 'register', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -9,6 +9,8 @@ import Register from './components/Register/Register'
 import ParticlesBg from 'particles-bg'
 import './App.css'
 
+const baseURL = 'https://ai-face-recognition-api.onrender.com/'
+
 const initState = {
   input: '',
   imgURL: '',
@@ -67,7 +69,7 @@ class App extends Component {
 
   onSubmitButton = async () => {
     this.setState({ imgURL: this.state.input })
-    fetch('http://localhost:3000/imageurl', {
+    fetch(baseURL + 'imageurl', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -77,7 +79,7 @@ class App extends Component {
       .then(response => response.json())
       .then(result => {
         if (result) {
-          fetch('http://localhost:3000/image', {
+          fetch(baseURL + 'image', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

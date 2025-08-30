@@ -19,7 +19,7 @@ class SignIn extends Component {
 
     onSubmitSignIn = () => {
         const { loadUser, onRouteChange } = this.props
-        fetch('http://localhost:3000/signin', {
+        fetch(baseURL + 'signin', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
