@@ -14,8 +14,7 @@ const baseURL = 'https://ai-face-recognition-api.onrender.com/'
 const initState = {
   input: '',
   imgURL: '',
-  bbox: {},
-  // bbox: [],
+  bboxes: [],
   route: 'signIn',
   isSignedIn: false,
   user: {
@@ -46,19 +45,6 @@ class App extends Component {
     })
   }
 
-  // TODO: change this to show multiple bboxes if applicable
-  // faceLocation = (data) => {
-  //   const bbox_raw = data.outputs[0].data.regions[0].region_info.bounding_box
-  //   const image = document.getElementById("inputImage")
-  //   const width = Number(image.width)
-  //   const height = Number(image.height)
-  //   return {
-  //     leftCol: bbox_raw.left_col * width,
-  //     topRow: bbox_raw.top_row * height,
-  //     rightCol: width - (bbox_raw.right_col * width),
-  //     bottomRow: height - (bbox_raw.bottom_row * height),
-  //   }
-  // }
   faceLocation = (data) => {
     const regions = data.outputs[0].data.regions
     const image = document.getElementById("inputImage")
@@ -81,16 +67,11 @@ class App extends Component {
       //   const value = concept.value.toFixed(4);
       // });
     })
-
     return bboxes
   }
 
-  // displayBBox = (bbox) => {
-  //   this.setState({ bbox: bbox })
-  // }
   displayBBox = (bboxes) => {
-    this.setState({ bbox: bboxes })
-    console.log(this.state.bbox)
+    this.setState({ bboxes: bboxes })
   }
 
   onInputChange = (event) => {
@@ -140,7 +121,7 @@ class App extends Component {
   }
 
   render() {
-    const { isSignedIn, route, bbox, imgURL, user } = this.state
+    const { isSignedIn, route, bboxes, imgURL, user } = this.state
     return (
       <div className='App'>
         <ParticlesBg color="#ffffff" type="cobweb" bg={true} />
@@ -150,7 +131,7 @@ class App extends Component {
             <Logo />
             <Rank name={user.name} entries={user.entries} />
             <ImageLinkForm onInputChange={this.onInputChange} onSubmitButton={this.onSubmitButton} />
-            <FaceRecognition bbox={bbox} imgURL={imgURL} />
+            <FaceRecognition bboxes={bboxes} imgURL={imgURL} />
           </>
           : (route === 'signIn'
             ? <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
