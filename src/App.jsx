@@ -46,6 +46,7 @@ class App extends Component {
   }
 
   faceLocation = (data) => {
+    console.log(data)
     const regions = data.outputs[0].data.regions
     const image = document.getElementById("inputImage")
     const width = Number(image.width)
@@ -144,3 +145,10 @@ class App extends Component {
 }
 
 export default App
+
+/* To-Dos
+- add loading screen when signing in or registering
+- allow you to upload your own images for prediction
+- allow you to fetch random face image from the web?
+- database on spreadsheet? -> try if it's possible to create db again on render
+*/
