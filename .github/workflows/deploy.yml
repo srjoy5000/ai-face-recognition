@@ -2,12 +2,16 @@ name: Deploy Static Content to Pages
 
 on:
   push:
-    branches: ["hotfix/api-renewal"] # Or whatever your default branch is
+    branches: ["hotfix/api-renewal"] # Change this to your specific branch if needed
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
+# This opt-in silences the warning and forces the use of Node 24
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   deploy:
@@ -17,22 +21,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 # v4 has been patched for Node 24
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22 # Recommended stable version for 2026
           cache: "npm"
       - name: Install dependencies
         run: npm install
       - name: Build
         run: npm run build
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5 # Upgraded to v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./dist"
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5 # Upgraded to v5
