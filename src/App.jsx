@@ -157,11 +157,11 @@ class App extends Component {
   //     .catch((error) => console.log("error", error));
   // };
 
-  onButtonSubmit = async () => {
+  onSubmitButton = async () => {
     this.setState({ imgURL: this.state.input });
     try {
       const boxes = await this.calcFaceLocation(this.state.input);
-      this.displayFaceBox(boxes);
+      this.displayBBox(boxes);
       fetch(`${baseURL}/image`, {
         method: "put",
         headers: { "Content-Type": "application/json" },
@@ -171,7 +171,8 @@ class App extends Component {
       })
         .then((res) => res.json())
         .then((count) => {
-          this.setState(Object.assign(this.state.user, { entries: count }));
+          // this.setState(Object.assign(this.state.user, { entries: count }));
+          this.setState({ user: { ...this.state.user, entries: count } }); // copy the original object and override the entries
         });
     } catch (error) {
       console.log("error", error);
