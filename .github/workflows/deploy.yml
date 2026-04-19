@@ -2,7 +2,7 @@ name: Deploy Static Content to Pages
 
 on:
   push:
-    branches: ["hotfix/api-renewal"] # Change this to your specific branch if needed
+    branches: ["main"] # Change this to your specific branch if needed
 
 permissions:
   contents: read
