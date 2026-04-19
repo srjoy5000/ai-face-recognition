@@ -226,5 +226,4 @@ export default App;
 - add loading screen when signing in or registering
 - allow you to upload your own images for prediction
 - allow you to fetch random face image from the web?
-- database on spreadsheet? -> try if it's possible to create db again on render
 */
