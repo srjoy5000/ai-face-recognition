@@ -12,6 +12,7 @@
 
 - **Core Functionality**: Paste any public image URL and the AI model draws bounding boxes around every detected face
 - **UI/UX**: Responsive and mobile-friendly design with animated particle background
+- **[Backend](https://github.com/srjoy5000/ai-face-recognition-api)**: Uses Node.js and Express. Secure data handling.
 
 ## 🛠 Tech Stack
 
