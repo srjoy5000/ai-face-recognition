@@ -2,6 +2,13 @@
 
 > Try Face Detection with ease.
 
+<!-- [Insert Image/GIF Link Here] -->
+
+![login.webp](src/images/login.webp)
+![face-detection.webp](src/images/face-detection.webp)
+
+\*face image from [unsplash.com](https://unsplash.com/photos/woman-wearing-black-crew-neck-shirt-3TLl_97HNJo)
+
 ## 🌐 Live Demo
 
 [https://srjoy5000.github.io/ai-face-recognition/](https://srjoy5000.github.io/ai-face-recognition/)
@@ -12,7 +19,7 @@
 
 - **Core Functionality**: Paste any public image URL and the AI model draws bounding boxes around every detected face.
 - **UI/UX**: Responsive and mobile-friendly design with animated particle background.
-- **[Backend](https://github.com/srjoy5000/ai-face-recognition-api)**: Uses Node.js and Express. Secure data handling.
+- **[Backend](https://github.com/srjoy5000/ai-face-recognition-api)**: This REST API backend uses Node.js and Express. Secure data handling.
 
 ## 🛠 Tech Stack
 
