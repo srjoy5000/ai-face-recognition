@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { FaceDetector, FilesetResolver } from "@mediapipe/tasks-vision";
+import { baseURL } from "./config";
 import Navigation from "./components/navigation/Navigation";
 import Logo from "./components/logo/Logo";
 import Rank from "./components/rank/Rank";
@@ -9,8 +10,6 @@ import SignIn from "./components/SignIn/SignIn";
 import Register from "./components/Register/Register";
 import ParticlesBg from "particles-bg";
 import "./App.css";
-
-const baseURL = "https://ai-face-recognition-api.onrender.com/";
 
 const initState = {
   input: "",
@@ -66,32 +65,6 @@ class App extends Component {
     return this.faceDetector;
   };
 
-  // faceLocation = (data) => {
-  //   console.log(data);
-  //   const regions = data.outputs[0].data.regions;
-  //   const image = document.getElementById("inputImage");
-  //   const width = Number(image.width);
-  //   const height = Number(image.height);
-
-  //   const bboxes = regions.map((region) => {
-  //     const boundingBox = region.region_info.bounding_box;
-
-  //     return {
-  //       leftCol: boundingBox.left_col * width,
-  //       topRow: boundingBox.top_row * height,
-  //       rightCol: width - boundingBox.right_col * width,
-  //       bottomRow: height - boundingBox.bottom_row * height,
-  //     };
-
-  //     // region.data.concepts.forEach(concept => {
-  //     //   // Accessing and rounding the concept value
-  //     //   const name = concept.name;
-  //     //   const value = concept.value.toFixed(4);
-  //     // });
-  //   });
-  //   return bboxes;
-  // };
-
   calcFaceLocation = async (imageUrl) => {
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -127,53 +100,20 @@ class App extends Component {
     this.setState({ input: event.target.value });
   };
 
-  // onSubmitButton = async () => {
-  //   this.setState({ imgURL: this.state.input });
-  //   fetch(baseURL + "imageurl", {
-  //     method: "post",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       input: this.state.input,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       if (result) {
-  //         fetch(baseURL + "image", {
-  //           method: "put",
-  //           headers: { "Content-Type": "application/json" },
-  //           body: JSON.stringify({
-  //             id: this.state.user.id,
-  //           }),
-  //         })
-  //           .then((response) => response.json())
-  //           .then((count) => {
-  //             this.setState(Object.assign(this.state.user, { entries: count }));
-  //           })
-  //           .catch(console.log);
-  //       }
-  //       this.displayBBox(this.faceLocation(result));
-  //     })
-  //     .catch((error) => console.log("error", error));
-  // };
-
   onSubmitButton = async () => {
     this.setState({ imgURL: this.state.input });
     try {
       const boxes = await this.calcFaceLocation(this.state.input);
       this.displayBBox(boxes);
-      fetch(`${baseURL}/image`, {
+      const response = await fetch(`${baseURL}image`, {
         method: "put",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: this.state.user.id,
         }),
-      })
-        .then((res) => res.json())
-        .then((count) => {
-          // this.setState(Object.assign(this.state.user, { entries: count }));
-          this.setState({ user: { ...this.state.user, entries: count } }); // copy the original object and override the entries
-        });
+      });
+      const count = await response.json();
+      this.setState({ user: { ...this.state.user, entries: count } }); // copy the original object and override the entries
     } catch (error) {
       console.log("error", error);
     }

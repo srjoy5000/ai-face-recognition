@@ -1,0 +1,1 @@
+export const baseURL = "https://ai-face-recognition-api.onrender.com/";
