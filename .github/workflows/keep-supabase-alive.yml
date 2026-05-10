@@ -11,4 +11,5 @@ jobs:
     steps:
       - name: Ping Supabase
         run: |
-          curl -sf "${{ secrets.SUPABASE_URL }}/auth/v1/health"
+          curl -s -o /dev/null -w "HTTP status: %{http_code}\n" \
+            "${{ secrets.SUPABASE_URL }}/auth/v1/health"
