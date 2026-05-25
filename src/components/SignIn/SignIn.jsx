@@ -7,6 +7,7 @@ class SignIn extends Component {
     this.state = {
       signInEmail: "",
       signInPassword: "",
+      isLoading: false,
     };
   }
 
@@ -18,27 +19,32 @@ class SignIn extends Component {
     this.setState({ signInPassword: event.target.value });
   };
 
-  onSubmitSignIn = () => {
+  onSubmitSignIn = async () => {
     const { loadUser, onRouteChange } = this.props;
-    fetch(baseURL + "signin", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: this.state.signInEmail,
-        password: this.state.signInPassword,
-      }),
-    })
-      .then((res) => res.json())
-      .then((user) => {
-        if (user.id) {
-          loadUser(user);
-          onRouteChange("home");
-        }
+    this.setState({ isLoading: true });
+    try {
+      const response = await fetch(baseURL + "signin", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: this.state.signInEmail,
+          password: this.state.signInPassword,
+        }),
       });
+      const user = await response.json();
+      if (user.id) {
+        loadUser(user);
+        onRouteChange("home");
+      }
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   render() {
-    const { onRouteChange } = this.props;
+    const { onRouteChange, isLoading } = this.props;
     return (
       <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
         <main className="pa4 black-80">
@@ -75,7 +81,8 @@ class SignIn extends Component {
                 onClick={this.onSubmitSignIn}
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
-                value="Sign in"
+                value={isLoading ? "Loading…" : "Sign in"}
+                disabled={isLoading}
               />
             </div>
             <div className="lh-copy mt3">
