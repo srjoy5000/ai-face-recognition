@@ -31,8 +31,30 @@ class SignIn extends Component {
           password: this.state.signInPassword,
         }),
       });
-      const user = await response.json();
-      if (user.id) {
+      // 1. Get the raw text instead of jumping straight to JSON
+      const responseText = await response.text();
+
+      // 2. Check if the server actually sent anything back
+      if (!responseText) {
+        console.error(
+          "Server returned an empty response. Check your backend status code!",
+        );
+        return;
+      }
+
+      // 3. Check if the HTTP status is a success (200-299) before parsing
+      if (!response.ok) {
+        console.error(
+          "Server returned an error status:",
+          response.status,
+          responseText,
+        );
+        return;
+      }
+
+      // 4. Safe to parse now
+      const user = JSON.parse(responseText);
+      if (user && user.id) {
         loadUser(user);
         onRouteChange("home");
       }
