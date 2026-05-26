@@ -12,6 +12,8 @@
 ## 🌐 Live Demo
 
 [https://srjoy5000.github.io/ai-face-recognition/](https://srjoy5000.github.io/ai-face-recognition/)
+or
+[https://srjoy5000.github.io/ai-face-recognition/](https://srjoy5000.github.io/ai-face-recognition/)
 
 ---
 
