@@ -1,1 +1,1 @@
-export const baseURL = "https://ai-face-recognition-api.onrender.com/";
+export const baseURL = import.meta.env.VITE_API_BASE_URL;
