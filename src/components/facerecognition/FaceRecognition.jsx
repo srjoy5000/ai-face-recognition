@@ -1,6 +1,6 @@
 import "./FaceRecognition.css"
 
-const FaceRecognition = ({ imgURL, bboxes }) => {
+const FaceRecognition = ({ imgURL, bboxes, detectionDone }) => {
     return (
         <div className="center ma">
             <div className="absolute mt2">
@@ -8,25 +8,23 @@ const FaceRecognition = ({ imgURL, bboxes }) => {
                     ? <img id="inputImage" src={imgURL} alt="input image" width="500px" height="auto" />
                     : <></>
                 }
-                {bboxes.length > 0
-                    ? bboxes.map((bbox, id) => {
-                        return (
-                            < div
-                                key={id}
-                                className="bbox"
-                                style={{
-                                    top: bbox.topRow,
-                                    right: bbox.rightCol,
-                                    bottom: bbox.bottomRow,
-                                    left: bbox.leftCol,
-                                }}
-                            ></div>
-                        )
-                    })
-                    : <></>
-                }
+                {bboxes.map((bbox, id) => (
+                    <div
+                        key={id}
+                        className="bbox"
+                        style={{
+                            top: bbox.topRow,
+                            right: bbox.rightCol,
+                            bottom: bbox.bottomRow,
+                            left: bbox.leftCol,
+                        }}
+                    />
+                ))}
             </div>
-        </div >
+            {detectionDone && bboxes.length === 0 && (
+                <p className="white f4 mt2">No faces detected.</p>
+            )}
+        </div>
     )
 }
 

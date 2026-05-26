@@ -8,6 +8,7 @@ class SignIn extends Component {
       signInEmail: "",
       signInPassword: "",
       isLoading: false,
+      error: "",
     };
   }
 
@@ -21,7 +22,7 @@ class SignIn extends Component {
 
   onSubmitSignIn = async () => {
     const { loadUser, onRouteChange } = this.props;
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, error: "" });
     try {
       const response = await fetch(baseURL + "signin", {
         method: "post",
@@ -31,42 +32,28 @@ class SignIn extends Component {
           password: this.state.signInPassword,
         }),
       });
-      // 1. Get the raw text instead of jumping straight to JSON
-      const responseText = await response.text();
-
-      // 2. Check if the server actually sent anything back
-      if (!responseText) {
-        console.error(
-          "Server returned an empty response. Check your backend status code!",
-        );
-        return;
-      }
-
-      // 3. Check if the HTTP status is a success (200-299) before parsing
       if (!response.ok) {
-        console.error(
-          "Server returned an error status:",
-          response.status,
-          responseText,
-        );
+        this.setState({ error: "Wrong email or password." });
         return;
       }
-
-      // 4. Safe to parse now
-      const user = JSON.parse(responseText);
+      const user = await response.json();
       if (user && user.id) {
         loadUser(user);
         onRouteChange("home");
+      } else {
+        this.setState({ error: "Wrong email or password." });
       }
     } catch (error) {
       console.log("error", error);
+      this.setState({ error: "Network error. Please try again." });
     } finally {
       this.setState({ isLoading: false });
     }
   };
 
   render() {
-    const { onRouteChange, isLoading } = this.props;
+    const { onRouteChange } = this.props;
+    const { isLoading, error } = this.state;
     return (
       <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
         <main className="pa4 black-80">
@@ -98,6 +85,7 @@ class SignIn extends Component {
                 />
               </div>
             </fieldset>
+            {error && <p className="red f6 mt2">{error}</p>}
             <div className="">
               <input
                 onClick={this.onSubmitSignIn}

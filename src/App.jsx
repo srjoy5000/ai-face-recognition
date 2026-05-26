@@ -15,6 +15,9 @@ const initState = {
   input: "",
   imgURL: "",
   bboxes: [],
+  imgError: "",
+  isDetecting: false,
+  detectionDone: false,
   route: "signIn",
   isSignedIn: false,
   user: {
@@ -31,6 +34,7 @@ class App extends Component {
     super();
     this.state = initState;
     this.faceDetector = null;
+    this._blobURL = null;
   }
 
   loadUser = (userData) => {
@@ -101,10 +105,11 @@ class App extends Component {
   };
 
   onSubmitButton = async () => {
-    this.setState({ imgURL: this.state.input });
+    this.setState({ imgURL: this.state.input, imgError: "", isDetecting: true, detectionDone: false });
     try {
       const boxes = await this.calcFaceLocation(this.state.input);
       this.displayBBox(boxes);
+      this.setState({ detectionDone: true });
       const response = await fetch(`${baseURL}image`, {
         method: "put",
         headers: { "Content-Type": "application/json" },
@@ -113,9 +118,29 @@ class App extends Component {
         }),
       });
       const count = await response.json();
-      this.setState({ user: { ...this.state.user, entries: count } }); // copy the original object and override the entries
+      this.setState({ user: { ...this.state.user, entries: count } });
     } catch (error) {
       console.log("error", error);
+      this.setState({ imgError: "Could not load this image. The URL may not support cross-origin access — try a different URL." });
+    } finally {
+      this.setState({ isDetecting: false });
+    }
+  };
+
+  onFileChange = (objectURL) => {
+    if (this._blobURL) URL.revokeObjectURL(this._blobURL);
+    this._blobURL = objectURL;
+    this.setState({ input: objectURL }, () => this.onSubmitButton());
+  };
+
+  onRandomImage = async () => {
+    try {
+      const res = await fetch("https://randomuser.me/api/");
+      const data = await res.json();
+      const url = data.results[0].picture.large;
+      this.setState({ input: url }, () => this.onSubmitButton());
+    } catch (error) {
+      console.log("Random image fetch failed", error);
     }
   };
 
@@ -129,7 +154,7 @@ class App extends Component {
   };
 
   render() {
-    const { isSignedIn, route, bboxes, imgURL, user } = this.state;
+    const { isSignedIn, route, bboxes, imgURL, imgError, isDetecting, detectionDone, user } = this.state;
     return (
       <div className="App">
         <ParticlesBg color="#ffffff" type="cobweb" bg={true} />
@@ -144,8 +169,12 @@ class App extends Component {
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onSubmitButton={this.onSubmitButton}
+              onFileChange={this.onFileChange}
+              onRandomImage={this.onRandomImage}
+              isDetecting={isDetecting}
             />
-            <FaceRecognition bboxes={bboxes} imgURL={imgURL} />
+            {imgError && <p className="white f5 mt2">{imgError}</p>}
+            <FaceRecognition bboxes={bboxes} imgURL={imgURL} detectionDone={detectionDone} />
           </>
         ) : route === "signIn" ? (
           <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
