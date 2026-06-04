@@ -94,10 +94,6 @@ No environment variables are required — the backend API is publicly hosted.
 - [ ] User-visible error messages on API failures
 - [ ] Image file upload support (in addition to URL input)
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
 ---
 
 **Developed by srjoy5000**  

@@ -4,6 +4,7 @@ body {
   font-family: 'Courier New', Courier, monospace;
   /* background: linear-gradient(89deg, #FFFFFF 0%, #000000 100%); */
   /* background: linear-gradient(89deg, #FF5EDF 0%, #04C8DE 100%); */
+  /* background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%); */
   background: linear-gradient(90deg, #EEAECA 0%, #94BBE9 100%);
 }
 

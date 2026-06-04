@@ -39,7 +39,9 @@ class Register extends Component {
         }),
       });
       if (!response.ok) {
-        this.setState({ error: "Registration failed. Email may already be in use." });
+        this.setState({
+          error: "Registration failed. Email may already be in use.",
+        });
         return;
       }
       const user = await response.json();
@@ -47,7 +49,9 @@ class Register extends Component {
         loadUser(user);
         onRouteChange("home");
       } else {
-        this.setState({ error: "Registration failed. Email may already be in use." });
+        this.setState({
+          error: "Registration failed. Email may already be in use.",
+        });
       }
     } catch (error) {
       console.log("error", error);
@@ -71,7 +75,8 @@ class Register extends Component {
                   Name
                 </label>
                 <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  // className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent hover-bg-white hover-black w-100"
                   type="text"
                   name="name"
                   id="name"
@@ -83,7 +88,8 @@ class Register extends Component {
                   Email
                 </label>
                 <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  // className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent hover-bg-white hover-black w-100"
                   type="email"
                   name="email-address"
                   id="email-address"
@@ -95,7 +101,8 @@ class Register extends Component {
                   Password
                 </label>
                 <input
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  // className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="b pa2 input-reset ba bg-transparent hover-bg-white hover-black w-100"
                   type="password"
                   name="password"
                   id="password"
